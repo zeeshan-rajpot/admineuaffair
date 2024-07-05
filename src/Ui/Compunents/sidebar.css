@@ -1,0 +1,13 @@
+.active-tabbbb {
+    color: aliceblue;
+    background-color: #3d9bd6 !important;
+    
+  }
+  
+  .active-tabbbb img {
+    filter: brightness(0) invert(1);
+  }
+  
+  .active img.hidden {
+    display: block;
+  }
