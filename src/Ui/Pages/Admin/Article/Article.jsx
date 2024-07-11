@@ -140,7 +140,7 @@ const Article = () => {
     try {
       const upload = await userApi.uploadArticle(uploadData);
       console.log(upload);
-    getArticle();
+      fetchArticles();
 
       toast.success(upload.message);
     } catch (err) {
@@ -156,22 +156,30 @@ const Article = () => {
 
 
 
-  const getArticle = async () => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1); // Assuming you'll get total pages from API
+
+  const fetchArticles = async (page) => {
+    setLoading(true);
     try {
-      const response = await userApi.getArticle();
-      console.log("User data:", response);
-      setArticles(response?.articles || []);
+      const response = await userApi.getArticle(page, 10); // Fetch 10 items per page
+      setArticles(response.articles || []);
+      setTotalPages(response.totalPages || 1); // Adjust as per API response structure
     } catch (err) {
       setError(err.message);
-      console.log(err);
+      console.error("Error fetching articles:", err);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    getArticle();
-  }, []);
+    fetchArticles(currentPage);
+  }, [currentPage]);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
 
   return (
     <>
@@ -196,10 +204,38 @@ const Article = () => {
           </div>
           <div className="container mx-auto p-4">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {articles.map((card, index) => (
-          <NeedsCard key={index} {...card} />
+        {articles.map((article, index) => (
+          <NeedsCard key={index} {...article} />
         ))}
       </div>
+
+      {/* Pagination */}
+      <div className="flex justify-center mt-4">
+              <ul className="flex">
+                {Array.from({ length: totalPages }).map((_, index) => (
+                  <li key={index}>
+                    <button
+                      onClick={() => handlePageChange(index + 1)}
+                      className={`flex items-center justify-center text-sm py-2 px-3 leading-tight border ${currentPage === index + 1 ? "text-primary-600 bg-primary-50 border-primary-300 hover:bg-primary-100 hover:text-primary-700" : "text-gray-500 bg-white border-gray-300 hover:bg-gray-100 hover:text-gray-700"}`}
+                    >
+                      {index + 1}
+                    </button>
+                  </li>
+                ))}
+                <li>
+                  <button
+                    onClick={() => handlePageChange(currentPage + 1)}
+                    disabled={currentPage === totalPages}
+                    className={`flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 ${currentPage === totalPages ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+                  >
+                    <span className="sr-only">Next</span>
+                    <svg className="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                      <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
+                    </svg>
+                  </button>
+                </li>
+              </ul>
+            </div>
     </div>
         </div>
       </div>

@@ -1,11 +1,17 @@
-const NewsCard = ({ image, date, readTime, category, heading,thumbnail,  reportDescription }) => {
+import { format } from 'date-fns';
+
+
+const NewsCard = ({ image, createdAt, readTime, category, heading,thumbnail,  reportDescription }) => {
+  const formatDate = (isoString) => {
+    return format(new Date(isoString), 'MMMM-dd');
+  };
     return (
       <div className="bg-white rounded-3xl shadow-md overflow-hidden mb-6 p-6">
         <div className="flex items-center space-x-4">
           <img src={thumbnail || image} alt={heading} className="w-20 h-20 rounded-md object-cover" />
           <div className="flex-1">
             <div className="flex items-center text-sm text-gray-500 mb-2">
-              <span>{date}</span>
+              <span>{formatDate(createdAt)}</span>
               <span className="mx-2">•</span>
               <span>{readTime}</span>
               <span className="mx-2">•</span>

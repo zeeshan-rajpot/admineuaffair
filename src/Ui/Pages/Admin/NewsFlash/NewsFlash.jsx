@@ -18,6 +18,9 @@ const NewsFlash = () => {
   const [loading, setLoading] = useState(true); // Set loading to true initially
   const [error, setError] = useState(null);
   const [news, setNews] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+
 
   const categories = {
     Healthcare: ['Animal health', 'Pharmaceuticals', 'Public health', 'Medical devices', 'Cancer', 'Health policy reforms'],
@@ -95,7 +98,7 @@ const NewsFlash = () => {
     try {
       const upload = await userApi.uploadnews(uploadData);
       console.log(upload);
-      getNews();
+      fetchNews();
       toast.success(upload.message);
     } catch (err) {
       const errorMessage = err.response?.data?.message || "An error occurred.";
@@ -107,11 +110,12 @@ const NewsFlash = () => {
     }
   };
 
-  const getNews = async () => {
+const fetchNews = async () => {
+    setLoading(true);
     try {
-      const response = await userApi.getNews();
-      console.log("User data:", response);
-      setNews(response?.news || []);
+      const response = await userApi.getNews(currentPage);
+      setNews(response.news || []);
+      setTotalPages(response.totalPages || 1);
     } catch (err) {
       setError(err.message);
       console.log(err);
@@ -120,9 +124,15 @@ const NewsFlash = () => {
     }
   };
 
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+
   useEffect(() => {
-    getNews();
-  }, []);
+    fetchNews();
+  }, [currentPage]); // Reload news when currentPage changes
+
 
   return (
     <>
@@ -145,21 +155,49 @@ const NewsFlash = () => {
             <Bar heading={`News Flash`} />
           </div>
           <div className="container mx-auto p-4">
-            <div className="flex flex-col space-y-4">
-              {loading ? (
-                Array.from({ length: 4 }).map((_, index) => (
-                  <div key={index} className="p-4 w-full bg-white shadow-lg rounded-lg">
-                    <div className="h-6 bg-gray-200 mb-2 shimmer"></div>
-                    <div className="h-4 bg-gray-200 shimmer"></div>
-                  </div>
-                ))
-              ) : (
-                news.map((card, index) => (
-                  <NewsCard key={index} {...card} onClick={() => handleCardClick(card)} />
-                ))
-              )}
+      <div className="flex flex-col space-y-4">
+        {loading ? (
+          Array.from({ length: 4 }).map((_, index) => (
+            <div key={index} className="p-4 w-full bg-white shadow-lg rounded-lg">
+              <div className="h-6 bg-gray-200 mb-2 shimmer"></div>
+              <div className="h-4 bg-gray-200 shimmer"></div>
             </div>
-          </div>
+          ))
+        ) : (
+          <>
+            {news.map((card, index) => (
+              <NewsCard key={index} {...card} onClick={() => handleCardClick(card)} />
+            ))}
+              <div className="flex justify-center mt-4">
+              <ul className="flex">
+                {Array.from({ length: totalPages }).map((_, index) => (
+                  <li key={index}>
+                    <button
+                      onClick={() => handlePageChange(index + 1)}
+                      className={`flex items-center justify-center text-sm py-2 px-3 leading-tight border ${currentPage === index + 1 ? "text-primary-600 bg-primary-50 border-primary-300 hover:bg-primary-100 hover:text-primary-700" : "text-gray-500 bg-white border-gray-300 hover:bg-gray-100 hover:text-gray-700"}`}
+                    >
+                      {index + 1}
+                    </button>
+                  </li>
+                ))}
+                <li>
+                  <button
+                    onClick={() => handlePageChange(currentPage + 1)}
+                    disabled={currentPage === totalPages}
+                    className={`flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 ${currentPage === totalPages ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+                  >
+                    <span className="sr-only">Next</span>
+                    <svg className="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                      <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
+                    </svg>
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </>
+        )}
+      </div>
+    </div>
         </div>
       </div>
 

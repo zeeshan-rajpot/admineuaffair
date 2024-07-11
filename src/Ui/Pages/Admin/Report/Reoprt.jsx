@@ -25,22 +25,30 @@ const Report = () => {
     Politics: ['EU legislation', 'International relations', 'Human rights', 'Immigration policy', 'Regional politics'],
   };
 
-  const getReport = async () => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1); // Assuming you'll get total pages from API
+
+  const fetchReports = async (page) => {
+    setLoading(true);
     try {
-      const response = await userApi.getReport();
-      console.log("User data:", response.reports);
-      setReport(response?.reports || []);
+      const response = await userApi.getReport(page, 10); // Fetch 10 items per page
+      setReport(response.reports || []);
+      setTotalPages(response.totalPages || 1); // Adjust as per API response structure
     } catch (err) {
       setError(err.message);
-      console.log(err);
+      console.error("Error fetching reports:", err);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    getReport();
-  }, []);
+    fetchReports(currentPage);
+  }, [currentPage]);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
 
   const handleCardClick = (card) => {
     setSelectedCard(card);
@@ -104,21 +112,69 @@ const Report = () => {
           </div>
 
           <div className="container mx-auto p-4">
-            <div className="flex flex-col space-y-4">
-              {loading ? (
-                Array.from({ length: 4 }).map((_, index) => (
-                  <div key={index} className="p-4 w-full bg-white shadow-lg rounded-lg shimmer">
-                    <div className="h-6 bg-gray-200 mb-2 shimmer"></div>
-                    <div className="h-4 bg-gray-200 shimmer"></div>
-                  </div>
-                ))
-              ) : (
-                report.map((card, index) => (
-                  <SavedReportsCard key={index} {...card} />
-                ))
-              )}
+      <div className="flex flex-col space-y-4">
+        {loading ? (
+          Array.from({ length: 4 }).map((_, index) => (
+            <div key={index} className="p-4 w-full bg-white shadow-lg rounded-lg shimmer">
+              <div className="h-6 bg-gray-200 mb-2 shimmer"></div>
+              <div className="h-4 bg-gray-200 shimmer"></div>
             </div>
-          </div>
+          ))
+        ) : (
+          <>
+            {report.map((card, index) => (
+              <SavedReportsCard key={index} {...card} />
+            ))}
+            {/* Pagination */}
+            {/* <div className="flex justify-center mt-4">
+              {Array.from({ length: totalPages }, (_, index) => (
+                <button
+                  key={index}
+                  onClick={() => handlePageChange(index + 1)}
+                  className={`mx-1 px-3 py-1 rounded-md ${
+                    currentPage === index + 1 ? "bg-gray-500 text-white" : "bg-gray-200"
+                  }`}
+                >
+                  {index + 1}
+                </button>
+              ))}
+            </div> */}
+
+
+<div className="flex justify-center mt-4">
+              <ul className="flex">
+                {Array.from({ length: totalPages }).map((_, index) => (
+                  <li key={index}>
+                    <button
+                      onClick={() => handlePageChange(index + 1)}
+                      className={`flex items-center justify-center text-sm py-2 px-3 leading-tight border ${currentPage === index + 1 ? "text-primary-600 bg-primary-50 border-primary-300 hover:bg-primary-100 hover:text-primary-700" : "text-gray-500 bg-white border-gray-300 hover:bg-gray-100 hover:text-gray-700"}`}
+                    >
+                      {index + 1}
+                    </button>
+                  </li>
+                ))}
+                <li>
+                  <button
+                    onClick={() => handlePageChange(currentPage + 1)}
+                    disabled={currentPage === totalPages}
+                    className={`flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 ${currentPage === totalPages ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+                  >
+                    <span className="sr-only">Next</span>
+                    <svg className="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                      <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
+                    </svg>
+                  </button>
+                </li>
+              </ul>
+            </div>
+               
+          </>
+        )}
+      </div>
+    </div>
+
+
+
         </div>
       </div>
 

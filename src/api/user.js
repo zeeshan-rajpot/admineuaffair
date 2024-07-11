@@ -23,6 +23,8 @@ const uploadimage = async (formData) => {
     }
   };
 
+  
+
 
 
 
@@ -36,12 +38,12 @@ const uploadReports = async (uploadData) => {
     }
   };
 
-  const getReport = async () => {
+  const getReport = async (page = 1, limit = 10) => {
     try {
-      const response = await apiClient.get(`admin/reports?page=${1}&limit=${10}`);
+      const response = await apiClient.get(`admin/reports?page=${page}&limit=${limit}`);
       return response.data;
     } catch (error) {
-      console.error("Error fetching user:", error);
+      console.error("Error fetching reports:", error);
       throw error;
     }
   };
@@ -56,15 +58,16 @@ const uploadReports = async (uploadData) => {
     }
   };
   
-  const getArticle = async () => {
+  const getArticle = async (page = 1, limit = 10) => {
     try {
-      const response = await apiClient.get(`admin/articles?page=${1}&limit=${10}`);
+      const response = await apiClient.get(`admin/articles?page=${page}&limit=${limit}`);
       return response.data;
     } catch (error) {
-      console.error("Error fetching user:", error);
+      console.error("Error fetching articles:", error);
       throw error;
     }
   };
+  
   const uploadnews = async (uploadData) => {
     try {
       const response = await apiClient.post(`admin/news` , uploadData);
@@ -74,15 +77,29 @@ const uploadReports = async (uploadData) => {
       throw error;
     }
   };
-  const getNews = async () => {
+
+  
+  const getNews = async (page = 1, limit = 10) => {
     try {
-      const response = await apiClient.get(`admin/news?page=${1}&limit=${10}`);
+      const response = await apiClient.get(`admin/news?page=${page}&limit=${limit}`);
       return response.data;
     } catch (error) {
-      console.error("Error fetching user:", error);
+      console.error("Error fetching news:", error);
       throw error;
     }
   };
+  
+
+ const getuser = async (page = 1, limit = 5) => {
+  try {
+    const response = await apiClient.get(`admin/users?page=${page}&limit=${limit}&sortBy=createdAt&order=asc`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    throw error;
+  }
+};
+
 
 export default {
     login,
@@ -93,4 +110,5 @@ export default {
     uploadnews,
     getArticle,
     getNews,
+    getuser,
 };
