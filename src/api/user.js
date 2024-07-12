@@ -78,7 +78,7 @@ const uploadReports = async (uploadData) => {
     }
   };
 
-  
+
   const getNews = async (page = 1, limit = 10) => {
     try {
       const response = await apiClient.get(`admin/news?page=${page}&limit=${limit}`);
@@ -101,6 +101,29 @@ const uploadReports = async (uploadData) => {
 };
 
 
+
+const getRequests = async () => {
+  try {
+    const response = await apiClient.get(`admin/requests`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    throw error;
+  }
+};
+
+
+
+const uploadRequests = async (data) => {
+  try {
+      const response = await apiClient.post('admin/request', data);
+      return response.data;
+  } catch (error) {
+      console.error("Error logging in:", error);
+      throw error;
+  }
+};
+
 export default {
     login,
     uploadimage,
@@ -111,4 +134,6 @@ export default {
     getArticle,
     getNews,
     getuser,
+    getRequests,
+    uploadRequests,
 };
