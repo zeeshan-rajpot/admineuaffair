@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 const apiClient = axios.create({
-  baseURL: 'https://testing-eu.us-east-1.elasticbeanstalk.com/api', // Replace with your API base URL
+  baseURL: 'https://www.euaffairs.org/api', // Replace with your API base URL
 });
 
 apiClient.interceptors.request.use((config) => {
