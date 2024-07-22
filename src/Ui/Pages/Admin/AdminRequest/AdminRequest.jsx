@@ -44,7 +44,7 @@ const AdminRequest = () => {
         try {
           const response = await userApi.getRequests();
           console.log("User data:", response.requests);
-          setRequests(response?.requests);
+          setRequests(response?.requests.reverse());
         } catch (err) {
           setError(err.message);
           console.log("user not get " + err);

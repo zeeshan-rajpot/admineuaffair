@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { format } from 'date-fns';
+import EllipsizedParagraph from "./EllipsizedParagraph";
 const SavedReportsCard = ({ heading, createdAt, readTime, category, reportDescription  }) => {
   const formatDate = (isoString) => {
     return format(new Date(isoString), 'MMMM-dd');
@@ -12,7 +13,8 @@ const SavedReportsCard = ({ heading, createdAt, readTime, category, reportDescri
           <span className="ml-auto">{readTime}</span>
         </div>
         <h3 className="text-xl font-semibold mb-2 text-theme" >{heading}</h3>
-        <p className="text-gray-600 mb-4">{reportDescription}</p>
+        <EllipsizedParagraph text={reportDescription}/>
+        {/* <p className="text-gray-600 mb-4">{reportDescription}</p> */}
         <Link
          to={`/ReportsDetail/${encodeURIComponent(heading)}/${encodeURIComponent(createdAt)}/${encodeURIComponent(readTime)}/${encodeURIComponent(category)}/${encodeURIComponent(reportDescription)}`}
         className="text-green-500 font-semibold"

@@ -114,7 +114,7 @@ const fetchNews = async () => {
     setLoading(true);
     try {
       const response = await userApi.getNews(currentPage);
-      setNews(response.news || []);
+      setNews(response.news.reverse() || []);
       setTotalPages(response.totalPages || 1);
     } catch (err) {
       setError(err.message);

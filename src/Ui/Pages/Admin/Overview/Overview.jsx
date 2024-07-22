@@ -1,34 +1,86 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 // import AdminSidebar from "../../../Compunents/AdminSidebar";
 import LineChart from "./LineChart";
-
+// import {user}
 import NewUserTable from "./NewUserTable";
 
 import Card from "../../../Compunents/Card";
 import SideBar from "../../../Compunents/SideBar";
-
+import { userApi } from '../../../../api';
 const Overview = () => {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  // const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
 
-  const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
-  };
+  // const toggleDropdown = () => {
+  //   setIsDropdownOpen(!isDropdownOpen);
+  // };
 
   const handleCardClick = (index) => {
     setSelectedCard(index);
   };
 
+ 
+
+
+  const [activeButton, setActiveButton] = useState('30 days');
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [data, setData] = useState(null);
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
+  const handleButtonClick = async (period) => {
+    setActiveButton(period);
+    await fetchData(period);
+  };
+
+  const [intrestsdata, setIntrestsdata] = useState('');
+  const [usersData, setUsersData] = useState([]);
+ 
+  const fetchData = async () => {
+    try {
+      // Fetch data for the current page
+      const intrest = await userApi.getDashBoardIntrest(activeButton);
+      console.log(activeButton + intrest);
+      setIntrestsdata(intrest);
+      
+      // Fetch dashboard users
+      const users = await userApi.getDashBoardusers(activeButton);
+      console.log('Users:', users);
+      setUsersData(users); // Assuming you have a setUsersData function/state to store users data
+    } catch (error) {
+      console.error('Detailed error:', error);
+    }
+  };
+
+
+    useEffect(() => {
+    fetchData();
+  }, [activeButton]);
+
+
+
+  const getButtonClass = (period) => {
+    return activeButton === period ? 'bg-theme text-white' : 'bg-gray-100';
+  };
+
+
   const cardsData = [
-    { imageSrc: "/healthcare.svg", text: "Healthcare", number: "42,43" },
+    { imageSrc: "/healthcare.svg", text: "Healthcare", number: intrestsdata?.Healthcare },
     {
       imageSrc: "/sustainability.svg",
       text: "Sustainability",
-      number: "42,348",
+      number: intrestsdata?.Sustainability,
     },
-    { imageSrc: "/economy.svg", text: "Economy", number: "326.60K" },
-    { imageSrc: "/politics.svg", text: "Politics", number: "126.60K" },
+    { imageSrc: "/economy.svg", text: "Economy", number: intrestsdata?.Economy },
+    { imageSrc: "/politics.svg", text: "Politics", number: intrestsdata?.Politics  },
   ];
+
+
+
+
+
   return (
     <>
       <div className="grid grid-cols-1 lg:grid-cols-10">
@@ -45,10 +97,10 @@ const Overview = () => {
             <hr className="mt-2 w-full border-red-100" />
           </div>
           <div className="flex justify-between mt-2 lg:mt-6 mx-4">
-            <h1 className="font-bold text-2xl md:text-4xl "> Statistic</h1>
+            <h1 className="font-bold text-2xl md:text-4xl">Statistic</h1>
             <div className="relative">
               <button
-                className="bg-secColor text-white rounded-3xl py-1 px-4 sm:hidden "
+                className="bg-secColor text-white rounded-3xl py-1 px-4 sm:hidden"
                 onClick={toggleDropdown}
               >
                 Filter
@@ -56,34 +108,28 @@ const Overview = () => {
               {isDropdownOpen && (
                 <div className="absolute z-10 mt-2 w-44 bg-white rounded-md shadow-lg">
                   <div className="py-1">
-                    <button className="block w-full text-left px-4 py-2 text-sm text-gray-800 hover:bg-gray-100">
-                      30 days
-                    </button>
-                    <button className="block w-full text-left px-4 py-2 text-sm text-gray-800 hover:bg-gray-100">
-                      90 days
-                    </button>
-                    <button className="block w-full text-left px-4 py-2 text-sm text-gray-800 hover:bg-gray-100">
-                      6 months
-                    </button>
-                    <button className="block w-full text-left px-4 py-2 text-sm text-gray-800 hover:bg-gray-100">
-                      12 months
-                    </button>
+                    {['30 days', '90 days', '6 months', '12 months'].map((period) => (
+                      <button
+                        key={period}
+                        className={`block w-full text-left px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 ${getButtonClass(period)}`}
+                        onClick={() => handleButtonClick(period)}
+                      >
+                        {period}
+                      </button>
+                    ))}
                   </div>
                 </div>
               )}
               <div className="sm:block hidden space-x-8 mx-6">
-                <button className="bg-secColor  rounded-3xl py-3 px-4">
-                  30 days
-                </button>
-                <button className="bg-gray-100  rounded-3xl py-3 px-4">
-                  90 days
-                </button>
-                <button className="bg-gray-100  rounded-3xl py-3 px-4">
-                  6 months
-                </button>
-                <button className="bg-gray-100  rounded-3xl py-3 px-4">
-                  12 months
-                </button>
+                {['30 days', '90 days', '6 months', '12 months'].map((period) => (
+                  <button
+                    key={period}
+                    className={`rounded-3xl py-3 px-4 ${getButtonClass(period)}`}
+                    onClick={() => handleButtonClick(period)}
+                  >
+                    {period}
+                  </button>
+                ))}
               </div>
             </div>
           </div>
@@ -108,7 +154,7 @@ const Overview = () => {
               </div>
             </div>
           </div>
-          <NewUserTable/>
+          <NewUserTable />
         </div>
       </div>
     </>

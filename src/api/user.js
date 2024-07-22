@@ -110,13 +110,41 @@ const getRequests = async () => {
     console.error("Error fetching user:", error);
     throw error;
   }
+};const getmesseges = async () => {
+  try {
+    const response = await apiClient.get(`admin/messages?order=asc&sortBy=name`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    throw error;
+  }
+};
+
+const getDashBoardIntrest = async (activeButton) => {
+  try {
+    const response = await apiClient.get(`admin/user/total/interests?period=${activeButton}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    throw error;
+  }
+};
+
+const getDashBoardusers = async (activeButton) => {
+  try {
+    const response = await apiClient.get(`admin/user/total/signup?period=${activeButton}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    throw error;
+  }
 };
 
 
 
 const uploadRequests = async (data) => {
   try {
-      const response = await apiClient.post('admin/request', data);
+      const response = await apiClient.post('admin/reports', data);
       return response.data;
   } catch (error) {
       console.error("Error logging in:", error);
@@ -136,4 +164,7 @@ export default {
     getuser,
     getRequests,
     uploadRequests,
+    getDashBoardIntrest,
+    getmesseges,
+    getDashBoardusers,
 };

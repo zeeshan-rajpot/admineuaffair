@@ -10,6 +10,7 @@ import NewsFlash from "./Ui/Pages/Admin/NewsFlash/NewsFlash";
 import AdminRequest from "./Ui/Pages/Admin/AdminRequest/AdminRequest";
 import ReportsDetail from "./Ui/Pages/Admin/ReportsDetail/ReportsDetail";
 import ArticleDetail from "./Ui/Pages/Admin/Article/ArticleDetail";
+import Messges from "./Ui/Pages/Admin/Messeges/Messges";
 
 
 function App() {
@@ -37,6 +38,9 @@ function App() {
     {
       path: "/newsFlash",
       element: <NewsFlash />,
+    }, {
+      path: "/Messges",
+      element: <Messges />,
     },
      {
       path: "/AdminRequest",

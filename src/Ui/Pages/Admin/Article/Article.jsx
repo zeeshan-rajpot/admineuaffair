@@ -163,7 +163,7 @@ const Article = () => {
     setLoading(true);
     try {
       const response = await userApi.getArticle(page, 10); // Fetch 10 items per page
-      setArticles(response.articles || []);
+      setArticles(response.articles.reverse() || []);
       setTotalPages(response.totalPages || 1); // Adjust as per API response structure
     } catch (err) {
       setError(err.message);

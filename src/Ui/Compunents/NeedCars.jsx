@@ -2,6 +2,7 @@ import React from 'react';
 
 import { format } from 'date-fns';
 import { Link } from 'react-router-dom';
+import EllipsizedParagraph from './EllipsizedParagraph';
 const NeedsCard = ({ heading,image, createdAt, readTime, category, reportDescription, thumbnail }) => {
   const formatDate = (isoString) => {
     return format(new Date(isoString), 'MMMM-dd');
@@ -20,7 +21,8 @@ const NeedsCard = ({ heading,image, createdAt, readTime, category, reportDescrip
         <span className="text-green-500 font-semibold mb-2 inline-block">{category}</span>
         </div>
         <h3 className="text-xl font-semibold mb-2 text-theme">{heading}</h3>
-        <p className="text-gray-600 mb-4">{reportDescription}</p>
+        <EllipsizedParagraph text={reportDescription}/>
+        {/* <p className="text-gray-600 mb-4">{reportDescription}</p> */}
         <Link  
         to={`/ArticleDetail/${encodeURIComponent(heading)}/${encodeURIComponent(createdAt)}/${encodeURIComponent(readTime)}/${encodeURIComponent(category)}/${encodeURIComponent(reportDescription)}/${encodeURIComponent(thumbnail)}`}
          className="text-green-500 font-semibold">Read More</Link>

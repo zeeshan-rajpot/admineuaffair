@@ -197,7 +197,7 @@ const SideBar = () => {
             </li>  
              <li>
               <NavLink
-                to="/Messages"
+                to="/Messges"
                 className={({ isActive }) =>
                   clsx(
                     "flex items-center py-1 rounded-2xl text-gray-400 hover:text-theme ",

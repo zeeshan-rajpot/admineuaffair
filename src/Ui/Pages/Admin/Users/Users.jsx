@@ -20,7 +20,7 @@ const Users = () => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const data = await userApi.getuser(currentPage, 5); // Fetch data for current page
+        const data = await userApi.getuser(currentPage, 10); // Fetch data for current page
         setUserData(data.users);
         setIntrest(data.users.interest);
         console.log(data)

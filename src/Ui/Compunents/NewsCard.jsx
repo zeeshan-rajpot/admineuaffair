@@ -1,4 +1,5 @@
 import { format } from 'date-fns';
+import EllipsizedParagraph from './EllipsizedParagraph';
 
 
 const NewsCard = ({ image, createdAt, readTime, category, heading,thumbnail,  reportDescription }) => {
@@ -18,7 +19,8 @@ const NewsCard = ({ image, createdAt, readTime, category, heading,thumbnail,  re
               <span className="text-green-500">{category}</span>
             </div>
             <h3 className="text-lg font-semibold mb-2 text-theme">{heading}</h3>
-            <p className="text-gray-600">{reportDescription}</p>
+            <EllipsizedParagraph text={reportDescription}/>
+            {/* <p className="text-gray-600">{reportDescription}</p> */}
           </div>
         </div>
       </div>
