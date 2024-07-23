@@ -2,12 +2,15 @@ import React from "react";
 import Chart from "react-apexcharts";
 import "./style.css";
 
-const LineChart = () => {
+const LineChart = ({ periodLabels, period }) => {
+ console.log(period)
+
+ const sum = period.reduce((a, b) => a + b, 0);
   const data = {
     series: [
       {
-        name: "Views",
-        data: [30000000, 10000000, 60000000, 20000000, 40000000, 8000 ],
+        name: "Users",
+        data: period, // Use the period prop here
       },
     ],
     options: {
@@ -20,7 +23,7 @@ const LineChart = () => {
         },
       },
       xaxis: {
-        categories: ["Feb", "Mar", "Apr", "May", "Jun", "July"],
+        categories: periodLabels,
       },
       legend: {
         position: "bottom",
@@ -35,7 +38,7 @@ const LineChart = () => {
         <div className="flex justify-between ">
           <p className="text-base md:text-2xl font-medium">Total Users</p>
           <h1 className="text-base md:text-3xl font-semibold text-theme">
-            42,43M
+          {sum}
           </h1>
         </div>
         <hr className="w-[90%] m-auto my-2" />

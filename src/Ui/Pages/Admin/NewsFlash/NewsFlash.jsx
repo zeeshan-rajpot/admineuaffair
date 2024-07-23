@@ -90,7 +90,7 @@ const NewsFlash = () => {
       subcategory,
       heading,
       reportDescription,
-      thumbnail,
+      // thumbnail,
     };
 
     console.log("Data being uploaded:", uploadData);
@@ -114,7 +114,7 @@ const fetchNews = async () => {
     setLoading(true);
     try {
       const response = await userApi.getNews(currentPage);
-      setNews(response.news.reverse() || []);
+      setNews(response.news|| []);
       setTotalPages(response.totalPages || 1);
     } catch (err) {
       setError(err.message);
@@ -210,7 +210,7 @@ const fetchNews = async () => {
             >
               <img src="/cancle.png" alt="Close" />
             </button>
-            <div className="my-4 mt-10">
+            {/* <div className="my-4 mt-10">
               <input
                 type="file"
                 className="hidden"
@@ -230,7 +230,7 @@ const fetchNews = async () => {
                   )}
                 </div>
               </label>
-            </div>
+            </div> */}
             <div className="mb-4">
               <input
                 type="text"

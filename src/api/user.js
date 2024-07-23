@@ -132,7 +132,7 @@ const getDashBoardIntrest = async (activeButton) => {
 
 const getDashBoardusers = async (activeButton) => {
   try {
-    const response = await apiClient.get(`admin/user/total/signup?period=${activeButton}`);
+    const response = await apiClient.get(`admin/user/total?filter=${activeButton}`);
     return response.data;
   } catch (error) {
     console.error("Error fetching user:", error);

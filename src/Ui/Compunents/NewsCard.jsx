@@ -9,7 +9,7 @@ const NewsCard = ({ image, createdAt, readTime, category, heading,thumbnail,  re
     return (
       <div className="bg-white rounded-3xl shadow-md overflow-hidden mb-6 p-6">
         <div className="flex items-center space-x-4">
-          <img src={thumbnail || image} alt={heading} className="w-20 h-20 rounded-md object-cover" />
+          {/* <img src={thumbnail || image} alt={heading} className="w-20 h-20 rounded-md object-cover" /> */}
           <div className="flex-1">
             <div className="flex items-center text-sm text-gray-500 mb-2">
               <span>{formatDate(createdAt)}</span>

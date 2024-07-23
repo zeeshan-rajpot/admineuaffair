@@ -132,7 +132,7 @@ const Article = () => {
       subcategory,
       heading,
       reportDescription,
-      thumbnail,
+      // thumbnail,
     };
 
     console.log("Data being uploaded:", uploadData);
@@ -163,7 +163,7 @@ const Article = () => {
     setLoading(true);
     try {
       const response = await userApi.getArticle(page, 10); // Fetch 10 items per page
-      setArticles(response.articles.reverse() || []);
+      setArticles(response.articles || []);
       setTotalPages(response.totalPages || 1); // Adjust as per API response structure
     } catch (err) {
       setError(err.message);
@@ -255,7 +255,7 @@ const Article = () => {
         </button>
 
 
-        <div className="my-4 mt-10">
+        {/* <div className="my-4 mt-10">
         <input
           type="file"
           className="hidden"
@@ -275,7 +275,7 @@ const Article = () => {
             )}
           </div>
         </label>
-      </div>
+      </div> */}
 
 
         <div className="mb-4">

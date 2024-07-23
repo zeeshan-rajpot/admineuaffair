@@ -32,7 +32,7 @@ const Report = () => {
     setLoading(true);
     try {
       const response = await userApi.getReport(page, 10); // Fetch 10 items per page
-      setReport(response.reports.reverse() || []);
+      setReport(response.reports || []);
       setTotalPages(response.totalPages || 1); // Adjust as per API response structure
     } catch (err) {
       setError(err.message);

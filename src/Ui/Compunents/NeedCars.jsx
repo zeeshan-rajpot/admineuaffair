@@ -10,7 +10,7 @@ const NeedsCard = ({ heading,image, createdAt, readTime, category, reportDescrip
 
   return (
     <div className="bg-white rounded-3xl shadow-md overflow-hidden">
-      <img src={thumbnail || image} alt={heading} className="w-full h-48 object-cover" />
+      {/* <img src={thumbnail || image} alt={heading} className="w-full h-48 object-cover" /> */}
       <div className="p-4">
         <div className="flex items-center justify-between text-sm text-gray-500 mb-2">
             <div>

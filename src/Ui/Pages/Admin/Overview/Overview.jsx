@@ -37,6 +37,8 @@ const Overview = () => {
 
   const [intrestsdata, setIntrestsdata] = useState('');
   const [usersData, setUsersData] = useState([]);
+  const [periodLabels, setPeriodLabels] = useState([]);
+  const [periodValues, setPeriodValues] = useState([]);
  
   const fetchData = async () => {
     try {
@@ -47,14 +49,16 @@ const Overview = () => {
       
       // Fetch dashboard users
       const users = await userApi.getDashBoardusers(activeButton);
-      console.log('Users:', users);
+      console.log('Users:', users.periodValues);
       setUsersData(users); // Assuming you have a setUsersData function/state to store users data
+      setPeriodLabels(users?.periodLabels)
+      setPeriodValues(users?.periodValues)
     } catch (error) {
       console.error('Detailed error:', error);
     }
   };
 
-
+// console.log(periodValues)
     useEffect(() => {
     fetchData();
   }, [activeButton]);
@@ -136,7 +140,7 @@ const Overview = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 md:mr-6">
             <div className="mt-0 md:mt-2 mx-2">
-              <LineChart />
+            <LineChart periodLabels={periodLabels} period={periodValues} />
             </div>
             <div>
               <div className="grid grid-cols-2 mt-4 sm:mt-10 mx-2 gap-2">
