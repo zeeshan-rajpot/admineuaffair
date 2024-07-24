@@ -1,5 +1,5 @@
 // Adjust the path as per your project structure
-import { useParams } from 'react-router-dom';
+import { useParams , useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
 import SideBar from '../../../Compunents/SideBar';
 
@@ -15,7 +15,7 @@ const ArticleDetail = () => {
       return isoString; // Return the original string if formatting fails
     }
   };
-
+  const navigate = useNavigate();
   return (
     <>
       <div className="grid grid-cols-1 lg:grid-cols-10">
@@ -23,6 +23,7 @@ const ArticleDetail = () => {
           <SideBar />
         </div>
         <div className="col-span-8 lg:col-span-8 p-8 pt-0">
+        <button onClick={() => navigate(-1)}>Go back</button>
           <div>
             <div className='w-full'>
               <img src={image} className='w-[50%] mx-auto' alt="" />

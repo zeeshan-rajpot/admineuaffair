@@ -57,6 +57,16 @@ const uploadReports = async (uploadData) => {
       throw error;
     }
   };
+    
+  const uploadBlogs = async (uploadData) => {
+    try {
+      const response = await apiClient.post(`admin/blogs` , uploadData);
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching moods:", error);
+      throw error;
+    }
+  };
   
   const getArticle = async (page = 1, limit = 10) => {
     try {
@@ -110,9 +120,20 @@ const getRequests = async () => {
     console.error("Error fetching user:", error);
     throw error;
   }
-};const getmesseges = async () => {
+};
+
+const getmesseges = async () => {
   try {
     const response = await apiClient.get(`admin/messages?order=asc&sortBy=name`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    throw error;
+  }
+};
+const getblogs = async (page =1 ,limit=10) => {
+  try {
+    const response = await apiClient.get(`admin/blogs?page=${page}&limit=${limit}`);
     return response.data;
   } catch (error) {
     console.error("Error fetching user:", error);
@@ -167,4 +188,6 @@ export default {
     getDashBoardIntrest,
     getmesseges,
     getDashBoardusers,
+    getblogs,
+    uploadBlogs,
 };

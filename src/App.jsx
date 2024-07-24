@@ -11,6 +11,7 @@ import AdminRequest from "./Ui/Pages/Admin/AdminRequest/AdminRequest";
 import ReportsDetail from "./Ui/Pages/Admin/ReportsDetail/ReportsDetail";
 import ArticleDetail from "./Ui/Pages/Admin/Article/ArticleDetail";
 import Messges from "./Ui/Pages/Admin/Messeges/Messges";
+import Blogs from "./Ui/Pages/Admin/Blogs/Blogs";
 
 
 function App() {
@@ -45,6 +46,10 @@ function App() {
      {
       path: "/AdminRequest",
       element: <AdminRequest />,
+    },
+     {
+      path: "/Blogs",
+      element: <Blogs />,
     },
      {
        path:"/ReportsDetail/:heading/:createdAt/:readTime/:category/:reportDescription",
