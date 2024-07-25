@@ -8,11 +8,12 @@ const categories = [
   { name: "Sustainability", icon: "/sustainability.svg" },
 ];
 
-const CategorySelector = () => {
-  const [selectedCategory, setSelectedCategory] = useState("Economy");
+const CategorySelector = ({ onCategorySelect }) => {
+  const [selectedCategory, setSelectedCategory] = useState('');
 
   const handleClick = (category) => {
     setSelectedCategory(category);
+    onCategorySelect(category); // Call the callback function with the selected category
   };
 
   return (

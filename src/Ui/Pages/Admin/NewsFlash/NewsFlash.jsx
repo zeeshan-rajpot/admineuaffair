@@ -110,29 +110,49 @@ const NewsFlash = () => {
     }
   };
 
-const fetchNews = async () => {
+
+  const [selectedCategory, setSelectedCategory] = useState('');
+
+
+  const handleCategorySelect = (category) => {
+    setSelectedCategory(category);
+    setCurrentPage(1); // Reset to first page when category changes
+    console.log("Selected category:", category);
+  };
+
+  const fetchNews = async (page, category) => {
     setLoading(true);
     try {
-      const response = await userApi.getNews(currentPage);
-      setNews(response.news|| []);
-      setTotalPages(response.totalPages || 1);
+      const response = await userApi.getNews(page);
+      const allNews = response.news || [];
+
+      const filteredNews = category
+        ? allNews.filter(newsItem => newsItem.category === category)
+        : allNews;
+
+      setNews(filteredNews);
+      setTotalPages(response.totalPages || 1); // Adjust as per API response structure
     } catch (err) {
       setError(err.message);
-      console.log(err);
+      console.error("Error fetching news:", err);
     } finally {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchNews(currentPage, selectedCategory);
+  }, [currentPage, selectedCategory]);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
 
 
-  useEffect(() => {
-    fetchNews();
-  }, [currentPage]); // Reload news when currentPage changes
 
+  useEffect(() => {
+    fetchNews(currentPage, selectedCategory);
+  }, [currentPage, selectedCategory]);
 
   return (
     <>
@@ -145,7 +165,7 @@ const fetchNews = async () => {
           <div className="text-3xl font-semibold mb-4">News Flash</div>
           <div className="grid grid-cols-1 md:grid-cols-2 ">
             <div className="flex items-center justify-center">
-              <CategorySelector />
+              <CategorySelector  onCategorySelect={handleCategorySelect} />
             </div>
             <div onClick={() => handleCardClick({})}>
               <Upload />

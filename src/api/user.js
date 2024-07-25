@@ -163,9 +163,10 @@ const getDashBoardusers = async (activeButton) => {
 
 
 
-const uploadRequests = async (data) => {
+const uploadRequests = async (data , requestId) => {
+  console.log("data" + data)
   try {
-      const response = await apiClient.post('admin/reports', data);
+      const response = await apiClient.post(`admin/requests/respond/${requestId}`, data);
       return response.data;
   } catch (error) {
       console.error("Error logging in:", error);

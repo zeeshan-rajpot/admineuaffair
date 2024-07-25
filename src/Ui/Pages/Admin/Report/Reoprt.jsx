@@ -17,6 +17,7 @@ const Report = () => {
   const [error, setError] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState('');
 
   const categories = {
     Healthcare: ['Animal health', 'Pharmaceuticals', 'Public health', 'Medical devices', 'Cancer', 'Health policy reforms'],
@@ -28,11 +29,26 @@ const Report = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1); // Assuming you'll get total pages from API
 
-  const fetchReports = async (page) => {
+
+  
+  const handleCategorySelect = (category) => {
+    setSelectedCategory(category);
+    setCurrentPage(1); // Reset to first page when category changes
+    console.log("Selected category:", category);
+  };
+
+  const fetchReports = async (page, category) => {
     setLoading(true);
     try {
       const response = await userApi.getReport(page, 10); // Fetch 10 items per page
-      setReport(response.reports || []);
+      console.log(response.reports);
+
+      // Filter reports based on the selected category if any
+      const filteredReports = category
+        ? response.reports.filter(report => report.category === category)
+        : response.reports;
+
+        setReport(filteredReports || []);
       setTotalPages(response.totalPages || 1); // Adjust as per API response structure
     } catch (err) {
       setError(err.message);
@@ -43,8 +59,8 @@ const Report = () => {
   };
 
   useEffect(() => {
-    fetchReports(currentPage);
-  }, [currentPage]);
+    fetchReports(currentPage, selectedCategory);
+  }, [currentPage, selectedCategory]);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -101,7 +117,7 @@ const Report = () => {
           <div className="text-3xl font-semibold mb-4">Report</div>
           <div className="grid grid-cols-1 md:grid-cols-2">
             <div className="flex items-center justify-center">
-              <CategorySelector />
+              <CategorySelector onCategorySelect={handleCategorySelect} />
             </div>
             <div onClick={() => handleCardClick({})}>
               <Upload />

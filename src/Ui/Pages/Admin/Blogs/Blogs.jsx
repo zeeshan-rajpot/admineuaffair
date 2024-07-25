@@ -18,6 +18,7 @@ const Blogs = () => {
   const [thumbnail, setThumbnail] = useState(null);
   const [articles, setArticles] = useState([]);
   const [blogs, setBlogs] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState('');
  
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -155,18 +156,30 @@ const Blogs = () => {
     }
   };
 
-
+  const handleCategorySelect = (category) => {
+    setSelectedCategory(category);
+    setCurrentPage(1); // Reset to first page when category changes
+    console.log("Selected category:", category);
+  };
 
 
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1); // Assuming you'll get total pages from API
 
-  const fetchArticles = async (page) => {
+  const fetchArticles = async (page , category) => {
     setLoading(true);
     try {
       const response = await userApi.getblogs(page ,10); // Fetch 10 items per page
       console.log(response)
-      setBlogs(response.blogs || []);
+      const allblogs = response.blogs || [];
+      
+      
+      const filteredblogs = category
+      ? allblogs.filter(blogsItem => blogsItem.category === category)
+      : allblogs;
+      setBlogs(filteredblogs || []);
+
+
       setTotalPages(response.totalPages || 1); // Adjust as per API response structure
     } catch (err) {
       setError(err.message);
@@ -176,9 +189,15 @@ const Blogs = () => {
     }
   };
 
+  // useEffect(() => {
+  //   fetchArticles(currentPage);
+  // }, [currentPage]);
+
+
+
   useEffect(() => {
-    fetchArticles(currentPage);
-  }, [currentPage]);
+    fetchArticles(currentPage, selectedCategory);
+  }, [currentPage, selectedCategory]);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -196,7 +215,7 @@ const Blogs = () => {
           <div className="text-3xl font-semibold mb-4">Article </div>
           <div className="grid grid-cols-1 md:grid-cols-2 ">
             <div className="flex items-center justify-center">
-              <CategorySelector />
+              <CategorySelector onCategorySelect={handleCategorySelect} />
             </div>
             <div onClick={() => handleCardClick({})}>
               <Upload />

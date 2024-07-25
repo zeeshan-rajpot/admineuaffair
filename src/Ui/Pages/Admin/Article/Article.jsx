@@ -30,32 +30,7 @@ const Article = () => {
     Politics: ['EU legislation', 'International relations', 'Human rights', 'Immigration policy', 'Regional politics'],
   };
 
-  const cards = [
-    {
-      title: 'The path to technical leadership',
-      date: 'Dec 28',
-      readTime: '7',
-      category: 'Leadership',
-      description: 'If software development feels like it is only part of your professional purpose, ...',
-      image: 'https://via.placeholder.com/300' // replace with actual image
-    },
-    {
-      title: 'The path to technical leadership: ',
-      date: 'Dec 28',
-      readTime: '7',
-      category: 'Leadership',
-      description: 'If software development feels like it is only part of your professional purpose, ...',
-      image: 'https://via.placeholder.com/300' // replace with actual image
-    },
-    {
-      title: 'The path to technical leadership: ',
-      date: 'Dec 28',
-      readTime: '7',
-      category: 'Leadership',
-      description: 'If software development feels like it is only part of your professional purpose, ...',
-      image: 'https://via.placeholder.com/300' // replace with actual image
-    }
-  ];
+
 
 
   
@@ -155,15 +130,31 @@ const Article = () => {
 
 
 
+  const handleCategorySelect = (category) => {
+    setSelectedCategory(category);
+    // console.log("Selected category:", category);
+  };
+
+
+
+
 
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1); // Assuming you'll get total pages from API
+  const [selectedCategory, setSelectedCategory] = useState('');
 
-  const fetchArticles = async (page) => {
+  const fetchArticles = async (page, category) => {
     setLoading(true);
     try {
       const response = await userApi.getArticle(page, 10); // Fetch 10 items per page
-      setArticles(response.articles || []);
+      console.log(response.articles);
+
+      // Filter articles based on the selected category if any
+      const filteredArticles = category
+        ? response.articles.filter(article => article.category === category)
+        : response.articles;
+
+      setArticles(filteredArticles || []);
       setTotalPages(response.totalPages || 1); // Adjust as per API response structure
     } catch (err) {
       setError(err.message);
@@ -174,12 +165,25 @@ const Article = () => {
   };
 
   useEffect(() => {
-    fetchArticles(currentPage);
-  }, [currentPage]);
+    fetchArticles(currentPage, selectedCategory);
+  }, [currentPage, selectedCategory]);
+
+
+  // useEffect(() => {
+  //   fetchArticles(currentPage);
+  // }, [currentPage]);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
+
+
+
+  useEffect(() => {
+    fetchArticles(currentPage);
+  }, [currentPage]);
+
+
 
   return (
     <>
@@ -193,7 +197,7 @@ const Article = () => {
           <div className="text-3xl font-semibold mb-4">Article </div>
           <div className="grid grid-cols-1 md:grid-cols-2 ">
             <div className="flex items-center justify-center">
-              <CategorySelector />
+              <CategorySelector onCategorySelect={handleCategorySelect} />
             </div>
             <div onClick={() => handleCardClick({})}>
               <Upload />

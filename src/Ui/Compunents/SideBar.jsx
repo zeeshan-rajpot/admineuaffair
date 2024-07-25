@@ -78,7 +78,7 @@ const SideBar = () => {
               className="w-32 md:w-40"
             />
           </div>
-          <ul className="space-y-3 font-medium flex flex-col w-[90%] m-auto mt-24">
+          <ul className="space-y-3 font-medium flex flex-col w-[90%] m-auto mt-14">
             <li>
               <NavLink
                 to="/overview"
@@ -208,7 +208,7 @@ const SideBar = () => {
                 }
               >
                 <img
-                  src="/request.png"
+                  src="/tabler_message-filled.png"
                   alt="newsFlash_icon"
                   className="w-8 ms-4"
                 />
@@ -228,7 +228,7 @@ const SideBar = () => {
                 }
               >
                 <img
-                  src="/request.png"
+                  src="/Capa_1.png"
                   alt="newsFlash_icon"
                   className="w-8 ms-4"
                 />
