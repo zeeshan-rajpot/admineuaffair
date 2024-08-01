@@ -71,6 +71,8 @@ const Users = () => {
         <th scope="row" className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap">
           {user.id}
         </th>
+        <td className="px-4 py-3">{user.firstName}</td>
+        <td className="px-4 py-3">{user.lastName}</td>
         <td className="px-4 py-3 text-nowrap">
           <div className="flex">
             {user.interests.map((interest, idx) => (
@@ -80,6 +82,7 @@ const Users = () => {
             ))}
           </div>
         </td>
+
         <td className="px-4 py-3">{user.email}</td>
         <td className="px-4 py-3">{user.plan}</td>
         <td className="px-4 py-3 flex items-center justify-end">
@@ -143,6 +146,8 @@ const Users = () => {
                           <img src="fa-solid_sort-up.png" alt="sort_icon" className="w-6" />
                         </span>
                       </th>
+                      <th scope="col" className="px-4 py-3 text-theme">FirstName</th>
+                      <th scope="col" className="px-4 py-3 text-theme">LastName</th>
                       <th scope="col" className="px-4 py-3 text-theme">Interest</th>
                       <th scope="col" className="px-4 py-3 text-theme">Email</th>
                       <th scope="col" className="px-4 py-3 text-theme">Plan</th>

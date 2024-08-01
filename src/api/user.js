@@ -101,8 +101,8 @@ const uploadReports = async (uploadData) => {
   
 
  const getuser = async (page = 1, limit = 5) => {
-  try {
-    const response = await apiClient.get(`admin/users?page=${page}&limit=${limit}&sortBy=createdAt&order=asc`);
+  try { 
+    const response = await apiClient.get(`admin/users?page=${page}&limit=${limit}&sortBy=createdAt&order=desc`);
     return response.data;
   } catch (error) {
     console.error("Error fetching user:", error);
