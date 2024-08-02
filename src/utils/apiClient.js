@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 const apiClient = axios.create({
-  baseURL: 'https://www.euaffairs.org/api', // Replace with your API base URL
+  baseURL: 'https://app.euaffairs.org/api', // Replace with your API base URL
 });
 
 apiClient.interceptors.request.use((config) => {
