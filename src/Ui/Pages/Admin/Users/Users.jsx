@@ -84,7 +84,7 @@ const Users = () => {
         </td>
 
         <td className="px-4 py-3">{user.email}</td>
-        <td className="px-4 py-3">{user.plan}</td>
+        <td className="px-4 py-3">{user.subscription}</td>
         <td className="px-4 py-3 flex items-center justify-end">
           <button
             className="inline-flex items-center p-0.5 text-sm font-medium text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none"
