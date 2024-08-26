@@ -95,11 +95,11 @@ const Overview = () => {
         </div>
         <div className="col-span-8 p-8">
           <div className=" mt-1 lg:mt-8 mx-4 ">
-            <img
+            {/* <img
               src="Ellipse 806.png"
               alt="admin_profile"
               className="float-right w-14 "
-            />
+            /> */}
             <hr className="mt-2 w-full border-red-100" />
           </div>
           <div className="flex justify-between mt-2 lg:mt-6 mx-4">
