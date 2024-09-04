@@ -130,6 +130,14 @@ const getmesseges = async () => {
     console.error("Error fetching user:", error);
     throw error;
   }
+};const getusersDetail = async () => {
+  try {
+    const response = await apiClient.get(`admin/usersDetail`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    throw error;
+  }
 };
 const getblogs = async (page =1 ,limit=10) => {
   try {
@@ -184,6 +192,7 @@ export default {
     getArticle,
     getNews,
     getuser,
+    getusersDetail,
     getRequests,
     uploadRequests,
     getDashBoardIntrest,

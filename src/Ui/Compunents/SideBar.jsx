@@ -212,7 +212,7 @@ const SideBar = () => {
                   alt="newsFlash_icon"
                   className="w-8 ms-4"
                 />
-                <span className="ms-3 text-lg font-normal">Messages</span>
+                <span className="ms-3 text-lg font-normal">Contact Form</span>
               </NavLink>
             </li>  
              <li>

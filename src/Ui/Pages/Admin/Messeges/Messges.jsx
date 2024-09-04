@@ -48,7 +48,7 @@ const Messges = () => {
         try {
           const data = await userApi.getmesseges(); // Fetch data for current page
           console.log(data)
-          setUserData(data.messages);
+          setUserData(data.messages.reverse());
         //   setTotalPages(data.totalPages);
           setLoading(false);
         } catch (error) {
@@ -138,7 +138,7 @@ const Messges = () => {
       </div>
       <div className="col-span-8 lg:col-span-8  p-8">
         <section className="p-3 sm:p-5">
-          <div className="text-3xl font-semibold mb-4">Messages</div>
+          <div className="text-3xl font-semibold mb-4">Contact Us Query</div>
           <div className="mx-auto max-w-screen-xl">
             <div className="bg-white relative shadow-md sm:rounded-lg overflow-hidden">
               <div className="overflow-x-auto">
