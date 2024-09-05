@@ -200,7 +200,7 @@ const Article = () => {
               <CategorySelector onCategorySelect={handleCategorySelect} />
             </div>
             <div onClick={() => handleCardClick({})}>
-              <Upload />
+              <Upload upload="Article"/>
             </div>
           </div>
           <div className="mt-6 ">

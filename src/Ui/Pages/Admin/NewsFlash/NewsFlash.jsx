@@ -168,7 +168,7 @@ const NewsFlash = () => {
               <CategorySelector  onCategorySelect={handleCategorySelect} />
             </div>
             <div onClick={() => handleCardClick({})}>
-              <Upload />
+              <Upload upload="News"/>
             </div>
           </div>
           <div className="mt-6 ">

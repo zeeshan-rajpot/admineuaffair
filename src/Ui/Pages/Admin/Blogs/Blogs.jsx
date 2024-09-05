@@ -244,7 +244,7 @@ const Blogs = () => {
               <CategorySelector onCategorySelect={handleCategorySelect} />
             </div>
             <div onClick={() => handleCardClick({})}>
-              <Upload />
+              <Upload upload="Blog"/>
             </div>
           </div>
           <div className="mt-6 ">

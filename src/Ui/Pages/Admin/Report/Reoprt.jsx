@@ -121,7 +121,7 @@ const Report = () => {
     }
   };
 
-  
+
   const handleEmailClick = (emailItem) => {
     setEmail(emailItem.email); // Update the email state
     setDisplayedEmails([]); // Clear the displayedEmails array to hide the list
@@ -177,7 +177,7 @@ const Report = () => {
               <CategorySelector onCategorySelect={handleCategorySelect} />
             </div>
             <div onClick={() => handleCardClick({})}>
-              <Upload />
+              <Upload upload="Report" />
             </div>
           </div>
           <div className="mt-6">
