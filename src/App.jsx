@@ -12,6 +12,7 @@ import ReportsDetail from "./Ui/Pages/Admin/ReportsDetail/ReportsDetail";
 import ArticleDetail from "./Ui/Pages/Admin/Article/ArticleDetail";
 import Messges from "./Ui/Pages/Admin/Messeges/Messges";
 import Blogs from "./Ui/Pages/Admin/Blogs/Blogs";
+import Plans from "./Ui/Pages/Admin/Plans/Plans";
 
 
 function App() {
@@ -50,6 +51,9 @@ function App() {
      {
       path: "/Blogs",
       element: <Blogs />,
+    },  {
+      path: "/Plans",
+      element: <Plans />,
     },
      {
        path:"/ReportsDetail/:heading/:createdAt/:readTime/:category/:reportDescription",

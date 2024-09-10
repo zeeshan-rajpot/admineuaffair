@@ -120,7 +120,28 @@ const getRequests = async () => {
     console.error("Error fetching user:", error);
     throw error;
   }
+};const getplans = async () => {
+  try {
+    const response = await apiClient.get(`admin/plans`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    throw error;
+  }
 };
+
+
+
+const uploadplans = async (planData) => {
+  try {
+    const response = await apiClient.post(`admin/update-price` , planData);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching moods:", error);
+    throw error;
+  }
+};
+
 
 const getmesseges = async () => {
   try {
@@ -172,7 +193,7 @@ const getDashBoardusers = async (activeButton) => {
 
 
 const uploadRequests = async (data , requestId) => {
-  console.log("data" + data)
+
   try {
       const response = await apiClient.post(`admin/requests/respond/${requestId}`, data);
       return response.data;
@@ -200,4 +221,7 @@ export default {
     getDashBoardusers,
     getblogs,
     uploadBlogs,
+    uploadplans,
+
+    getplans,
 };
