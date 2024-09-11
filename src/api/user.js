@@ -120,7 +120,9 @@ const getRequests = async () => {
     console.error("Error fetching user:", error);
     throw error;
   }
-};const getplans = async () => {
+};
+
+const getplans = async () => {
   try {
     const response = await apiClient.get(`admin/plans`);
     return response.data;
